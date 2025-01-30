@@ -1,8 +1,11 @@
 aiogram[i18n]
+aiogram_i18n
+fluent-compiler
+fluent.runtime
 alembic
 SQLAlchemy[asyncio]
 pymysql
-asyncmy
+asyncpg
 cryptography
 requests
 pyCryptomusAPI
