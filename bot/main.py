@@ -22,8 +22,7 @@ from tasks import register
 import glv
 
 glv.bot = Bot(glv.config['BOT_TOKEN'], default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-glv.storage = MemoryStorage()
-glv.dp = Dispatcher(storage=glv.storage)
+glv.dp = Dispatcher(storage=MemoryStorage())
 
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
@@ -52,9 +51,9 @@ def setup_middlewares():
     glv.dp.message.middleware(DBCheck())
 
 async def main():
-    await create_tables()
     setup_routers()
     setup_middlewares()
+    glv.dp.startup.register(create_tables)
     glv.dp.startup.register(on_startup)
     if glv.config.get('WEBHOOK_URL'):
         app = web.Application()

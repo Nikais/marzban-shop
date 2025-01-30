@@ -42,5 +42,4 @@ config = {
 }
 
 bot: Bot = None
-storage = None
 dp: Dispatcher = None
