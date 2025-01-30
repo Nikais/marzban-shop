@@ -7,6 +7,7 @@ fluent.runtime
 alembic
 SQLAlchemy[asyncio]
 pymysql
+asyncmy
 asyncpg
 cryptography
 requests
