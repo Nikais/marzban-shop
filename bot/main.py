@@ -10,7 +10,9 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.utils.i18n import I18n, SimpleI18nMiddleware
 from aiohttp import web 
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
+from sqlalchemy.ext.asyncio import create_async_engine
 
+from db import Base
 from handlers.commands import register_commands
 from handlers.messages import register_messages
 from handlers.callbacks import register_callbacks
@@ -24,6 +26,13 @@ glv.storage = MemoryStorage()
 glv.dp = Dispatcher(storage=glv.storage)
 
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+
+async def create_tables():
+    # Убедитесь, что DB_URL указан правильно (например, "sqlite+aiosqlite:///bot.db")
+    engine = create_async_engine(glv.config['DB_URL'])
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
 
 async def on_startup(bot: Bot):
     if glv.config.get('WEBHOOK_URL'):
@@ -43,6 +52,7 @@ def setup_middlewares():
     glv.dp.message.middleware(DBCheck())
 
 async def main():
+    await create_tables()
     setup_routers()
     setup_middlewares()
     glv.dp.startup.register(on_startup)
