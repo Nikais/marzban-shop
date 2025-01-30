@@ -22,7 +22,7 @@ import glv
 glv.bot = Bot(glv.config['BOT_TOKEN'], default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 glv.storage = MemoryStorage()
 glv.dp = Dispatcher(storage=glv.storage)
-app = web.Application()
+
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
 async def on_startup(bot: Bot):
@@ -46,7 +46,7 @@ async def main():
     setup_routers()
     setup_middlewares()
     glv.dp.startup.register(on_startup)
-
+    app = web.Application()
     app.router.add_post("/cryptomus_payment", check_crypto_payment)
     app.router.add_post("/yookassa_payment", check_yookassa_payment)
     
