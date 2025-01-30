@@ -46,18 +46,22 @@ async def main():
     setup_routers()
     setup_middlewares()
     glv.dp.startup.register(on_startup)
-    app = web.Application()
-    app.router.add_post("/cryptomus_payment", check_crypto_payment)
-    app.router.add_post("/yookassa_payment", check_yookassa_payment)
-    
-    webhook_requests_handler = SimpleRequestHandler(
-        dispatcher=glv.dp,
-        bot=glv.bot,
-    )
-    webhook_requests_handler.register(app, path="/webhook")
+    if glv.config.get('WEBHOOK_URL'):
+        app = web.Application()
+        app.router.add_post("/cryptomus_payment", check_crypto_payment)
+        app.router.add_post("/yookassa_payment", check_yookassa_payment)
 
-    setup_application(app, glv.dp, bot=glv.bot)
-    await web._run_app(app, host="0.0.0.0", port=glv.config['WEBHOOK_PORT'])
+        webhook_requests_handler = SimpleRequestHandler(
+            dispatcher=glv.dp,
+            bot=glv.bot,
+        )
+        webhook_requests_handler.register(app, path="/webhook")
+
+        setup_application(app, glv.dp, bot=glv.bot)
+        await web._run_app(app, host="0.0.0.0", port=glv.config['WEBHOOK_PORT'])
+    else:
+        await glv.bot.delete_webhook()
+        await glv.dp.start_polling(glv.bot)
 
 if __name__ == "__main__":
     asyncio.run(main())
