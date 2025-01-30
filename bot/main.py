@@ -35,7 +35,7 @@ def setup_routers():
     register_callbacks(glv.dp)
 
 def setup_middlewares():
-    i18n = I18n(path=Path(__file__).parent / 'locales', default_locale='en', domain='bot')
+    i18n = I18n(path=Path(__file__).parent.parent / 'locales', default_locale='en', domain='bot')
     i18n_middleware = SimpleI18nMiddleware(i18n=i18n)
     i18n_middleware.setup(glv.dp)
     glv.dp.message.middleware(DBCheck())
