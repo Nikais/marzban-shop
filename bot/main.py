@@ -26,8 +26,10 @@ app = web.Application()
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
 async def on_startup(bot: Bot):
-    await bot.set_webhook(f"{glv.config['WEBHOOK_URL']}/webhook")
+    if glv.config.get('WEBHOOK_URL'):
+        await bot.set_webhook(f"{glv.config['WEBHOOK_URL']}/webhook")
     asyncio.create_task(register())
+    logging.info("Bot started in %s mode", "WEBHOOK" if glv.config.get('WEBHOOK_URL') else "LONG POLLING")
 
 def setup_routers():
     register_commands(glv.dp)

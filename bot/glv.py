@@ -37,7 +37,7 @@ config = {
     'PANEL_USER': os.environ.get('PANEL_USER'),
     'PANEL_PASS': os.environ.get('PANEL_PASS'),
     'WEBHOOK_URL': os.environ.get('WEBHOOK_URL'),
-    'WEBHOOK_PORT': int(os.environ.get('WEBHOOK_PORT')),
+    'WEBHOOK_PORT': int(port) if (port := os.environ.get('WEBHOOK_PORT')) else None,
     'RENEW_NOTIFICATION_TIME': str(os.environ.get('RENEW_NOTIFICATION_TIME'))
 }
 
