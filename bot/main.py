@@ -3,7 +3,7 @@ import logging
 import sys
 from pathlib import Path
 
-from aiogram import Bot, Dispatcher, enums
+from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -22,7 +22,7 @@ from tasks import register
 import glv
 
 glv.bot = Bot(glv.config['BOT_TOKEN'], default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-glv.dp = Dispatcher(storage=MemoryStorage())
+dp = Dispatcher(storage=MemoryStorage())
 
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
@@ -40,37 +40,37 @@ async def on_startup(bot: Bot):
     logging.info("Bot started in %s mode", "WEBHOOK" if glv.config.get('WEBHOOK_URL') else "LONG POLLING")
 
 def setup_routers():
-    register_commands(glv.dp)
-    register_messages(glv.dp)
-    register_callbacks(glv.dp)
+    register_commands(dp)
+    register_messages(dp)
+    register_callbacks(dp)
 
 def setup_middlewares():
     i18n = I18n(path=Path(__file__).parent.parent / 'locales', default_locale='en', domain='bot')
     i18n_middleware = SimpleI18nMiddleware(i18n=i18n)
-    i18n_middleware.setup(glv.dp)
-    glv.dp.message.middleware(DBCheck())
+    i18n_middleware.setup(dp)
+    dp.message.middleware(DBCheck())
 
 async def main():
     setup_routers()
     setup_middlewares()
-    glv.dp.startup.register(create_tables)
-    glv.dp.startup.register(on_startup)
+    dp.startup.register(create_tables)
+    dp.startup.register(on_startup)
     if glv.config.get('WEBHOOK_URL'):
         app = web.Application()
         app.router.add_post("/cryptomus_payment", check_crypto_payment)
         app.router.add_post("/yookassa_payment", check_yookassa_payment)
 
         webhook_requests_handler = SimpleRequestHandler(
-            dispatcher=glv.dp,
+            dispatcher=dp,
             bot=glv.bot,
         )
         webhook_requests_handler.register(app, path="/webhook")
 
-        setup_application(app, glv.dp, bot=glv.bot)
+        setup_application(app, dp, bot=glv.bot)
         await web._run_app(app, host="0.0.0.0", port=glv.config['WEBHOOK_PORT'])
     else:
         await glv.bot.delete_webhook()
-        await glv.dp.start_polling(glv.bot)
+        await dp.start_polling(glv.bot)
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -42,4 +42,3 @@ config = {
 }
 
 bot: Bot = None
-dp: Dispatcher = None
