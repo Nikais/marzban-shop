@@ -4,6 +4,8 @@ import sys
 from pathlib import Path
 
 from aiogram import Bot, Dispatcher, enums
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.utils.i18n import I18n, SimpleI18nMiddleware
 from aiohttp import web 
@@ -17,7 +19,7 @@ from app.routes import check_crypto_payment, check_yookassa_payment
 from tasks import register
 import glv
 
-glv.bot = Bot(glv.config['BOT_TOKEN'], parse_mode=enums.ParseMode.HTML)
+glv.bot = Bot(glv.config['BOT_TOKEN'], default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 glv.storage = MemoryStorage()
 glv.dp = Dispatcher(storage=glv.storage)
 app = web.Application()
