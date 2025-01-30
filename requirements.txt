@@ -1,5 +1,7 @@
 aiogram[i18n]
 aiogram_i18n
+aiosqlite
+aiohttp
 fluent-compiler
 fluent.runtime
 alembic
