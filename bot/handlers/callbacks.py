@@ -4,7 +4,6 @@ from aiogram import Router, F
 from aiogram import Dispatcher
 from aiogram.types import CallbackQuery
 from aiogram.utils.i18n import gettext as _
-from aiogram.utils.i18n import lazy_gettext as __
 
 from keyboards import get_payment_keyboard, get_pay_keyboard
 from utils import goods, yookassa, cryptomus
