@@ -3,7 +3,6 @@ from aiogram import Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.utils.i18n import gettext as _
-from aiogram.utils.i18n import lazy_gettext as __
 
 from keyboards import get_main_menu_keyboard
 import glv

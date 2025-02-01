@@ -1,6 +1,5 @@
 import gettext
 from pathlib import Path
-import logging
 
 domain = 'bot'
 localedir = 'locales'

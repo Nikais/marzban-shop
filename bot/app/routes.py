@@ -1,7 +1,4 @@
-import uuid
-import logging
 import ipaddress
-import time
 
 from aiohttp.web_request import Request
 from aiohttp import web
@@ -41,7 +38,7 @@ async def check_crypto_payment(request: Request):
         good = goods.get(payment.callback)
         user = await get_marzban_profile_db(payment.tg_id)
         result = await marzban_api.generate_marzban_subscription(user.vpn_id, good)
-        text = get_i18n_string("Thank you for your choice ❤️\n️\n<a href=\{link}\">Subscribe</a> so you don't miss any announcements ✅\n️\nYour subscription is purchased and available in \"My subscription 👤\".", payment.lang)
+        text = get_i18n_string("Thank you for your choice ❤️\n️\n<a href=\\{link}\">Subscribe</a> so you don't miss any announcements ✅\n️\nYour subscription is purchased and available in \"My subscription 👤\".", payment.lang)
         await glv.bot.send_message(payment.chat_id,
             text.format(
                 link=glv.config['PANEL_GLOBAL'] + result['subscription_url']

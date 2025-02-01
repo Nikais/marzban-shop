@@ -1,8 +1,13 @@
-aiogram[i18n]==3.1.1
-alembic==1.10.2
+aiogram[i18n]
+aiogram_i18n
+aiosqlite
+aiohttp
+fluent-compiler
+fluent.runtime
+alembic
 SQLAlchemy[asyncio]
 pymysql
-asyncmy
+asyncpg
 cryptography
 requests
 pyCryptomusAPI

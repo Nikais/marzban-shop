@@ -2,7 +2,6 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup,  WebAppInf
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.i18n import gettext as _
 
-import glv
 
 def get_subscription_keyboard(subscription_url) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()

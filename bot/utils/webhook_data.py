@@ -12,4 +12,4 @@ def check(data, key) -> bool:
 
 def get_sign(data: dict, key: str) -> str:
     data = b64encode(json.dumps(data).encode('utf-8')).decode('utf-8')
-    return hashlib.md5(f'{data}{key}'.encode('utf-8')).hexdigest() 
+    return hashlib.md5(f'{data}{key}'.encode('utf-8')).hexdigest()
